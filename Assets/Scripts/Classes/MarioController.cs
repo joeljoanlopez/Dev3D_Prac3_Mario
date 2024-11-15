@@ -9,6 +9,7 @@ public class MarioController : MonoBehaviour
     [Header("Speeds")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 8.0f;
+    public float rotationSpeed = 1.0f;
 
     [Header("Input")]
     public KeyCode leftKeyCode = KeyCode.A;
@@ -66,11 +67,15 @@ public class MarioController : MonoBehaviour
                 speed = walkSpeed;
                 animator.SetFloat("Speed", 0.2f);
             }
+            Quaternion desiredRotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {
             animator.SetFloat("Speed", 0.0f);
         }
+
+
         movement = movement * speed * Time.deltaTime;
         characterController.Move(movement);
     }
