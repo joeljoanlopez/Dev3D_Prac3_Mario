@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class MarioController : MonoBehaviour
 {
+    private CharacterController characterController;
     public Camera camera;
     private Animator animator;
-    private CharacterController characterController;
 
     [Header("Speeds")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 8.0f;
     public float rotationSpeed = 1.0f;
+    float verticalSpeed = 0.0f;
 
     [Header("Input")]
     public KeyCode leftKeyCode = KeyCode.A;
@@ -52,7 +53,7 @@ public class MarioController : MonoBehaviour
             movement -= forward;
         }
         movement.Normalize();
-        bool hasMovement = movement != Vector3.zero;
+        bool hasMovement = movement != Vector3.zero; // I May need to set it in each input
         float speed = 0.0f;
 
         if (hasMovement)
@@ -77,6 +78,13 @@ public class MarioController : MonoBehaviour
 
 
         movement = movement * speed * Time.deltaTime;
-        characterController.Move(movement);
+        verticalSpeed += Physics.gravity.y * Time.deltaTime;
+        movement.y = verticalSpeed;
+
+        CollisionFlags collisionFlags = characterController.Move(movement);
+        if ((collisionFlags & CollisionFlags.Below) != 0 || (collisionFlags & CollisionFlags.Above) != 0 && verticalSpeed > 0.0f)
+        {
+            verticalSpeed = 0;
+        }
     }
 }
