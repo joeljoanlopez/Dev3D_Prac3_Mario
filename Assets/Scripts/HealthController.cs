@@ -32,7 +32,15 @@ public class HealthController : MonoBehaviour
 
     public void Die()
     {
-        var scene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(scene);
+        LifesController lifesController = GetComponent<LifesController>();
+        if (lifesController)
+        {
+            lifesController.RemoveLife(1);
+        }
+        else
+        {
+            var scene = SceneManager.GetActiveScene().name;
+            SceneManager.LoadScene(scene);
+        }
     }
 }
