@@ -1,6 +1,7 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
-public class MarioController : MonoBehaviour
+public class MarioController : MonoBehaviour, RestartGameElement
 {
     private CharacterController characterController;
     public Camera camera;
@@ -18,10 +19,23 @@ public class MarioController : MonoBehaviour
     public KeyCode upKeyCode = KeyCode.W;
     public KeyCode downKeyCode = KeyCode.D;
     public KeyCode runKeyCode = KeyCode.LeftShift;
+
+    // Game manager vars
+    private Vector3 startingPosition;
+    private Quaternion startingRotation;
+    private CheckpointController currentCheckpoint;
+
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        GameManager.GetGameManager().AddRestartGameElement(this);
+        startingPosition = transform.position;
+        startingRotation = transform.rotation;
     }
 
     private void Update()
@@ -86,5 +100,27 @@ public class MarioController : MonoBehaviour
         {
             verticalSpeed = 0;
         }
+
+    }
+
+    public void SetCheckpoint(CheckpointController newCheckpoint)
+    {
+        currentCheckpoint = newCheckpoint;
+    }
+
+    public void RestartGame()
+    {
+        characterController.enabled = false;
+        if (!currentCheckpoint)
+        {
+            transform.position = startingPosition;
+            transform.rotation = startingRotation;
+        }
+        else
+        {
+            transform.position = currentCheckpoint.respawnPoint.position;
+            transform.rotation = currentCheckpoint.respawnPoint.rotation;
+        }
+        characterController.enabled = true;
     }
 }
