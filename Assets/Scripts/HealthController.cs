@@ -5,10 +5,13 @@ public class HealthController : MonoBehaviour
 {
     public int maxHealth;
     public int health;
+    public float invincibilityTime = 0.5f;
+    private float damageTimer;
 
     private void Start()
     {
         health = maxHealth;
+        damageTimer = invincibilityTime;
     }
 
     private void Update()
@@ -18,6 +21,7 @@ public class HealthController : MonoBehaviour
         {
             Die();
         }
+        damageTimer -= Time.deltaTime;
     }
 
     public void AddHealth(int value)
@@ -27,7 +31,12 @@ public class HealthController : MonoBehaviour
 
     public void RemoveHealth(int value)
     {
-        health -= value;
+        if (damageTimer <= 0.0f)
+        {
+            health -= value;
+            damageTimer = invincibilityTime;
+            Debug.Log("Health Remaining: " + health);
+        }
     }
 
     public void Die()

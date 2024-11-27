@@ -12,14 +12,12 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public float walkSpeed = 2.0f;
     public float runSpeed = 8.0f;
     public float rotationSpeed = 1.0f;
-    float verticalSpeed = 0.0f;
+    private float verticalSpeed = 0.0f;
+    public float VerticalSpeed { get { return verticalSpeed; } }
 
     [Header("Jump")]
     public float jumpVerticalSpeed = 5.0f;
-    public float killJumpVerticalSpeed = 0.5f;
     public float waitStartJumpTime = 0.12f;
-    public float maxAngleNeededToKill = 15.0f;
-    public float minVerticalSpeedToKill = 1.0f;
     public float fallingVerticalSpeedMultiplier = 0.1f;
 
     [Header("Input")]
@@ -43,6 +41,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
     private void Start()
     {
+        animator.fireEvents = false;
         GameManager.GetGameManager().AddRestartGameElement(this);
         startingPosition = transform.position;
         startingRotation = transform.rotation;
@@ -112,11 +111,11 @@ public class MarioController : MonoBehaviour, RestartGameElement
         CollisionFlags collisionFlags = characterController.Move(movement);
         if ((collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f)
         {
-            animator.SetBool("falling", false);
+            animator.SetBool("Falling", false);
         }
         else
         {
-            animator.SetBool("falling", true);
+            animator.SetBool("Falling", true);
         }
         if ((collisionFlags & CollisionFlags.Below) != 0 && (verticalSpeed < 0.0f) || (collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
         {
@@ -141,7 +140,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     {
         yield return new WaitForSeconds(waitStartJumpTime);
         verticalSpeed = jumpVerticalSpeed;
-        animator.SetBool("falling", false);
+        animator.SetBool("Falling", false);
     }
 
     public void SetCheckpoint(CheckpointController newCheckpoint)
@@ -163,34 +162,5 @@ public class MarioController : MonoBehaviour, RestartGameElement
             transform.rotation = currentCheckpoint.respawnPoint.rotation;
         }
         characterController.enabled = true;
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        if (hit.gameObject.CompareTag("Goomba"))
-        {
-            if (IsUpperHit(hit.transform))
-            {
-                hit.gameObject.GetComponent<GoombaController>().Kill();
-                verticalSpeed = killJumpVerticalSpeed;
-            }
-            else
-            {
-                //TODO test take damage
-                //TODO Separar player i goomba
-                GetComponent<HealthController>().RemoveHealth(10);
-            }
-        }
-    }
-
-    private bool IsUpperHit(Transform enemy)
-    {
-        Vector3 enemyDirection = transform.position - enemy.position;
-        enemyDirection.Normalize();
-
-        float dotAngle = Vector3.Dot(enemyDirection, Vector3.up);
-        if (dotAngle >= Mathf.Cos(maxAngleNeededToKill * Mathf.Deg2Rad) && verticalSpeed <= minVerticalSpeedToKill)
-            return true;
-        return false;
     }
 }
