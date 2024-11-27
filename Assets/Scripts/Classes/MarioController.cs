@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net.WebSockets;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -15,18 +16,12 @@ public class MarioController : MonoBehaviour, RestartGameElement
     private float verticalSpeed = 0.0f;
     public float VerticalSpeed { get { return verticalSpeed; } }
 
-    [Header("Jump")]
-    public float jumpVerticalSpeed = 5.0f;
-    public float waitStartJumpTime = 0.12f;
-    public float fallingVerticalSpeedMultiplier = 0.1f;
-
     [Header("Input")]
     public KeyCode leftKeyCode = KeyCode.A;
     public KeyCode rightKeyCode = KeyCode.D;
     public KeyCode upKeyCode = KeyCode.W;
     public KeyCode downKeyCode = KeyCode.D;
     public KeyCode runKeyCode = KeyCode.LeftShift;
-    public KeyCode jumpKeyCode = KeyCode.Space;
 
     // Game manager vars
     private Vector3 startingPosition;
@@ -99,11 +94,6 @@ public class MarioController : MonoBehaviour, RestartGameElement
             animator.SetFloat("Speed", 0.0f);
         }
 
-        if (CanJump() && Input.GetKeyDown(jumpKeyCode))
-        {
-            Jump();
-        }
-
         movement = movement * speed * Time.deltaTime;
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y = verticalSpeed * Time.deltaTime;
@@ -124,28 +114,14 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
     }
 
-    private bool CanJump()
-    {
-        //TODO fix this
-        return true;
-    }
-
-    private void Jump()
-    {
-        animator.SetTrigger("Jump");
-        StartCoroutine(ExecuteJump());
-    }
-
-    IEnumerator ExecuteJump()
-    {
-        yield return new WaitForSeconds(waitStartJumpTime);
-        verticalSpeed = jumpVerticalSpeed;
-        animator.SetBool("Falling", false);
-    }
-
     public void SetCheckpoint(CheckpointController newCheckpoint)
     {
         currentCheckpoint = newCheckpoint;
+    }
+
+    public void UpdateVertSpeed(float value)
+    {
+        verticalSpeed = value;
     }
 
     public void RestartGame()

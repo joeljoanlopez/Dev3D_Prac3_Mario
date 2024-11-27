@@ -7,16 +7,10 @@ public class HitController : MonoBehaviour
     public float maxAngleNeededToKill = 15.0f;
 
     public float minVerticalSpeedNeededToKill = 1.0f;
-    private float verticalSpeed;
 
     private void Awake()
     {
         marioController = GetComponent<MarioController>();
-    }
-
-    private void Start()
-    {
-        verticalSpeed = marioController.VerticalSpeed;
     }
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -26,7 +20,7 @@ public class HitController : MonoBehaviour
             if (IsUpperHit(hit.transform))
             {
                 hit.gameObject.GetComponent<GoombaController>().Kill();
-                verticalSpeed = killJumpVerticalSpeed;
+                marioController.UpdateVertSpeed(killJumpVerticalSpeed);
             }
             else
             {
@@ -44,7 +38,7 @@ public class HitController : MonoBehaviour
         enemyDirection.Normalize();
 
         float dotAngle = Vector3.Dot(enemyDirection, Vector3.up);
-        if (dotAngle >= Mathf.Cos(maxAngleNeededToKill * Mathf.Deg2Rad) && verticalSpeed <= minVerticalSpeedNeededToKill)
+        if (dotAngle >= Mathf.Cos(maxAngleNeededToKill * Mathf.Deg2Rad) && marioController.VerticalSpeed <= minVerticalSpeedNeededToKill)
         {
             Debug.Log("Upper Hit done!");
             return true;
