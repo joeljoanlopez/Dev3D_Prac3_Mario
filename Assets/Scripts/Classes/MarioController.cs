@@ -26,7 +26,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
-    private CheckpointController currentCheckpoint;
+    private Checkpoint currentCheckpoint;
 
     private void Awake()
     {
@@ -52,47 +52,10 @@ public class MarioController : MonoBehaviour, RestartGameElement
         forward.Normalize();
         right.Normalize();
 
-        Vector3 movement = Vector3.zero;
+        Vector3 movement = HandleInputs(forward, right);
 
-        if (Input.GetKey(leftKeyCode))
-        {
-            movement -= right;
-        }
-        if (Input.GetKey(rightKeyCode))
-        {
-            movement += right;
-        }
-        if (Input.GetKey(upKeyCode))
-        {
-            movement += forward;
-        }
-        if (Input.GetKey(downKeyCode))
-        {
-            movement -= forward;
-        }
-        movement.Normalize();
         bool hasMovement = movement != Vector3.zero; // I May need to set it in each input
-        float speed = 0.0f;
-
-        if (hasMovement)
-        {
-            if (Input.GetKey(runKeyCode))
-            {
-                speed = runSpeed;
-                animator.SetFloat("Speed", 1.0f);
-            }
-            else
-            {
-                speed = walkSpeed;
-                animator.SetFloat("Speed", 0.2f);
-            }
-            Quaternion desiredRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
-        }
-        else
-        {
-            animator.SetFloat("Speed", 0.0f);
-        }
+        float speed = HandleSpeed(hasMovement);
 
         movement = movement * speed * Time.deltaTime;
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
@@ -114,7 +77,59 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
     }
 
-    public void SetCheckpoint(CheckpointController newCheckpoint)
+    Vector3 HandleInputs(Vector3 forward, Vector3 right)
+    {
+        Vector3 movement = Vector3.zero;
+
+        if (Input.GetKey(leftKeyCode))
+        {
+            movement -= right;
+        }
+        if (Input.GetKey(rightKeyCode))
+        {
+            movement += right;
+        }
+        if (Input.GetKey(upKeyCode))
+        {
+            movement += forward;
+        }
+        if (Input.GetKey(downKeyCode))
+        {
+            movement -= forward;
+        }
+
+        movement.Normalize();
+
+        return movement;
+    }
+
+    float HandleSpeed(bool isRunning)
+    {
+        float speed = 0.0f;
+        if (isRunning)
+        {
+            if (Input.GetKey(runKeyCode))
+            {
+                speed = runSpeed;
+                animator.SetFloat("Speed", 1.0f);
+            }
+            else
+            {
+                speed = walkSpeed;
+                animator.SetFloat("Speed", 0.2f);
+            }
+            Quaternion desiredRotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            animator.SetFloat("Speed", 0.0f);
+        }
+
+        return speed;
+    }
+
+    public void SetCheckpoint(Checkpoint newCheckpoint)
     {
         currentCheckpoint = newCheckpoint;
     }
