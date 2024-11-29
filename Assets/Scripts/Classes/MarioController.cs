@@ -26,7 +26,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
-    private Checkpoint currentCheckpoint;
+    private CheckpointController currentCheckpoint;
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         Vector3 movement = HandleInputs(forward, right);
 
         bool hasMovement = movement != Vector3.zero; // I May need to set it in each input
-        float speed = HandleSpeed(hasMovement);
+        float speed = HandleSpeed(hasMovement, movement);
 
         movement = movement * speed * Time.deltaTime;
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
@@ -103,7 +103,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         return movement;
     }
 
-    float HandleSpeed(bool isRunning)
+    float HandleSpeed(bool isRunning, Vector3 movement)
     {
         float speed = 0.0f;
         if (isRunning)
@@ -129,7 +129,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         return speed;
     }
 
-    public void SetCheckpoint(Checkpoint newCheckpoint)
+    public void SetCheckpoint(CheckpointController newCheckpoint)
     {
         currentCheckpoint = newCheckpoint;
     }
