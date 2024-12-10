@@ -1,11 +1,22 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public interface ILivesManager
+{
+    void AddLife(int value);
+    void RemoveLife(int value);
+    int GetScore();
+    event LivesChanged livesChangedDelegate;
+}
+
+public delegate void LivesChanged(ILivesManager livesManager);
+
 public class LifesController : MonoBehaviour
 {
+    public GameManager gameManager;
     public int maxLives = 10;
     public int startLives = 1;
-    public int lives;
+    int lives;
 
     private void Start()
     {
@@ -33,7 +44,8 @@ public class LifesController : MonoBehaviour
 
     private void Die()
     {
-        var scene = SceneManager.GetActiveScene().name;
-        SceneManager.LoadScene(scene);
+        gameManager.RestartGame();
     }
+
+    public int GetLives() { return lives; }
 }
