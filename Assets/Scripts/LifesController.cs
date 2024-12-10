@@ -5,18 +5,25 @@ public interface ILivesManager
 {
     void AddLife(int value);
     void RemoveLife(int value);
-    int GetScore();
+    int GetLives();
     event LivesChanged livesChangedDelegate;
 }
 
 public delegate void LivesChanged(ILivesManager livesManager);
 
-public class LifesController : MonoBehaviour
+public class LifesController : MonoBehaviour, ILivesManager
 {
     public GameManager gameManager;
     public int maxLives = 10;
     public int startLives = 1;
     int lives;
+
+    public event LivesChanged livesChangedDelegate;
+
+    private void Awake()
+    {
+        DependencyInjector.AddDependency<IScoreManager>(this);
+    }
 
     private void Start()
     {
@@ -35,11 +42,13 @@ public class LifesController : MonoBehaviour
     public void AddLife(int value)
     {
         lives += value;
+        livesChangedDelegate?.Invoke(this);
     }
 
     public void RemoveLife(int value)
     {
         lives -= value;
+        livesChangedDelegate?.Invoke(this);
     }
 
     private void Die()
