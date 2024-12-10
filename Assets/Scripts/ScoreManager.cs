@@ -2,25 +2,26 @@ using UnityEngine;
 
 public interface IScoreManager
 {
-    void AddPoints(int Points);
-    int GetPoints();
+    void AddScore(int Points);
+    int GetScore();
     event ScoreChanged scoreChangedDelegate;
 }
 public delegate void ScoreChanged(IScoreManager scoreManager);
 
 public class ScoreManager : MonoBehaviour, IScoreManager
 {
-    [SerializeField] int m_Points;
+    [SerializeField] int score;
     public event ScoreChanged scoreChangedDelegate;
 
     void Awake()
     {
         DependencyInjector.AddDependency<IScoreManager>(this);
+        score = 0;
     }
-    public void AddPoints(int points)
+    public void AddScore(int value)
     {
-        m_Points += points;
+        score += value;
         scoreChangedDelegate?.Invoke(this);
     }
-    public int GetPoints() { return m_Points; }
+    public int GetScore() { return score; }
 }

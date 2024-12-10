@@ -18,7 +18,7 @@ public class HUD : MonoBehaviour
     }
     public void UpdateScore(IScoreManager scoreManager)
     {
-        m_Score.text = "" + scoreManager.GetPoints();
+        m_Score.text = "" + scoreManager.GetScore();
         ShowAnimation();
     }
     void ShowAnimation()

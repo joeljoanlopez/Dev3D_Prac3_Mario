@@ -9,7 +9,7 @@ public class Item : MonoBehaviour, RestartGameElement
     {
         if (other.CompareTag("Player"))
         {
-            DependencyInjector.GetDependency<IScoreManager>().AddPoints(1);
+            DependencyInjector.GetDependency<IScoreManager>().AddScore(1);
             gameObject.SetActive(false);
         }
     }

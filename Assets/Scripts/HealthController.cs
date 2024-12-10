@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class HealthController : MonoBehaviour
 {
+    public GameManager gameManager;
     public int maxHealth;
     public int health;
     public float invincibilityTime = 0.5f;
@@ -41,15 +42,16 @@ public class HealthController : MonoBehaviour
 
     public void Die()
     {
+        // TODO implement game over screen
         LifesController lifesController = GetComponent<LifesController>();
         if (lifesController)
         {
             lifesController.RemoveLife(1);
+            gameManager.RestartGame();
         }
         else
         {
-            var scene = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(scene);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

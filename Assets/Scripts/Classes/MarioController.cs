@@ -6,7 +6,7 @@ using UnityEngine;
 public class MarioController : MonoBehaviour, RestartGameElement
 {
     private CharacterController characterController;
-    public Camera camera;
+    public Camera cam;
     private Animator animator;
 
     [Header("Speeds")]
@@ -44,8 +44,8 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
     private void Update()
     {
-        Vector3 forward = camera.transform.forward;
-        Vector3 right = camera.transform.right;
+        Vector3 forward = cam.transform.forward;
+        Vector3 right = cam.transform.right;
         forward.y = 0.0f;
         right.y = 0.0f;
 
