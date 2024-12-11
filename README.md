@@ -18,7 +18,7 @@ l’entrega individual. Cal utilitzar la versió de Unity3D 2022.3.30f1.
 - [x] **Items (_1p_):** Mario haurà de poder recollir monedes i cors. Les monedes es sumaran a mesura que es recullin, i els cors sumaran porcions de vida. (No és el mateix comportament que en el joc original).
 - [ ] **Enemics - Seta (_1p_):** Els goombas hauran d’estar distribuïts per l’escenari i tenir un comportament de patrol on el que estaran passejant i un estat d’alert on si veuen a Mario dins d’un cert radi d’acció aniran directament fins a ell per tocar-li. Mentre estiguin tocant a Mario perdrem una unitat de vida per segon. Si Mario salta a sobre d’ells, els goombas moriran a l’instant.
       ![alt text](image.png)
-- [ ] **HUD (_1p_):** En aquest moment haurem de poder veure les vides restants i la quantitat de monedes que tenim. L’indicador de vida, només haurà d’aparèixer des de dalt quan Mario perdi una porció de vida o quan se li regeneri. Una vegada mostrada haurà de tornar a amargar-se.
+- [x] **HUD (_1p_):** En aquest moment haurem de poder veure les vides restants i la quantitat de monedes que tenim. L’indicador de vida, només haurà d’aparèixer des de dalt quan Mario perdi una porció de vida o quan se li regeneri. Una vegada mostrada haurà de tornar a amargar-se.
       ![alt text](image-2.png)
 - [ ] **Game Over / Restart (_1p_):** Quan el player mori sortirà una pantalla de Game Over i se li donarà la possibilitat de tornar a intentar-ho. Mentre li quedin vides haurà de poder tornar a començar el nivell.
 
