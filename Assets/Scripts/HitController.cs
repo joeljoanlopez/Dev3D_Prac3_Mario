@@ -27,7 +27,7 @@ public class HitController : MonoBehaviour
                 //TODO test take damage
                 //TODO Separar player i goomba
                 Debug.LogWarning("Mario Was Hit!! Current health ");
-                GetComponent<HealthController>().RemoveHealth(10);
+                GetComponent<HealthController>().RemoveHealth(1);
             }
         }
     }

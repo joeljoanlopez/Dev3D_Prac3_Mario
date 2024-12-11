@@ -6,10 +6,11 @@ public class CoinManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player"))
         {
-            other.GetComponent<ScoreController>().AddScore(score);
-            Destroy(this.gameObject);
+            return;
         }
+        other.GetComponent<ScoreManager>().AddScore(score);
+        Destroy(this.gameObject);
     }
 }

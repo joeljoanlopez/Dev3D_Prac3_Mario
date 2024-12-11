@@ -1,13 +1,30 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class HealthController : MonoBehaviour
+public interface IHealthController
+{
+    bool AddHealth(int value);
+    void RemoveHealth(int value);
+    int GetHealth();
+    event HealthChanged healthChangedDelegate;
+}
+
+public delegate void HealthChanged(IHealthController healthController);
+
+public class HealthController : MonoBehaviour, IHealthController, RestartGameElement
 {
     public GameManager gameManager;
-    public int maxHealth;
+    public int maxHealth = 8;
     public int health;
     public float invincibilityTime = 0.5f;
     private float damageTimer;
+
+    public event HealthChanged healthChangedDelegate;
+
+    private void Awake()
+    {
+        DependencyInjector.AddDependency<IHealthController>(this);
+    }
 
     private void Start()
     {
@@ -25,9 +42,15 @@ public class HealthController : MonoBehaviour
         damageTimer -= Time.deltaTime;
     }
 
-    public void AddHealth(int value)
+    public bool AddHealth(int value)
     {
+        if (health >= maxHealth)
+        {
+            return false;
+        }
         health += value;
+        healthChangedDelegate?.Invoke(this);
+        return true;
     }
 
     public void RemoveHealth(int value)
@@ -38,6 +61,7 @@ public class HealthController : MonoBehaviour
             damageTimer = invincibilityTime;
             Debug.Log("Health Remaining: " + health);
         }
+        healthChangedDelegate?.Invoke(this);
     }
 
     public void Die()
@@ -53,5 +77,15 @@ public class HealthController : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+    }
+
+    public int GetHealth()
+    {
+        return health;
+    }
+
+    public void RestartGame()
+    {
+        health = maxHealth;
     }
 }

@@ -22,7 +22,7 @@ public class LifesController : MonoBehaviour, ILivesManager
 
     private void Awake()
     {
-        DependencyInjector.AddDependency<IScoreManager>(this);
+        DependencyInjector.AddDependency<ILivesManager>(this);
     }
 
     private void Start()

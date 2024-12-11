@@ -5,6 +5,7 @@ public class HUD : MonoBehaviour
 {
     public Text score;
     public Text lives;
+    public Image health;
     public Animation anim;
     public AnimationClip idleAnimationClip;
     public AnimationClip showAnimationClip;
@@ -13,11 +14,13 @@ public class HUD : MonoBehaviour
     {
         DependencyInjector.GetDependency<IScoreManager>().scoreChangedDelegate += UpdateScore;
         DependencyInjector.GetDependency<ILivesManager>().livesChangedDelegate += UpdateLives;
+        DependencyInjector.GetDependency<IHealthController>().healthChangedDelegate += UpdateHealth;
     }
     private void OnDestroy()
     {
         DependencyInjector.GetDependency<IScoreManager>().scoreChangedDelegate -= UpdateScore;
         DependencyInjector.GetDependency<ILivesManager>().livesChangedDelegate += UpdateLives;
+        DependencyInjector.GetDependency<IHealthController>().healthChangedDelegate -= UpdateHealth;
     }
     public void UpdateScore(IScoreManager scoreManager)
     {
@@ -28,6 +31,12 @@ public class HUD : MonoBehaviour
     public void UpdateLives(ILivesManager livesManager)
     {
         lives.text = "" + livesManager.GetLives();
+        ShowAnimation();
+    }
+
+    public void UpdateHealth(IHealthController healthController)
+    {
+        health.fillAmount = (float)healthController.GetHealth() * 1 / 8;
         ShowAnimation();
     }
 
