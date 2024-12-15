@@ -67,8 +67,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
         CollisionFlags collisionFlags = characterController.Move(movement);
         wasGroundedPrevFrame = isGrounded;
-        // isGrounded = (characterController.collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
-        isGrounded = characterController.isGrounded;
+        isGrounded = (characterController.collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
