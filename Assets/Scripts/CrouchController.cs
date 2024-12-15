@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class CrouchController : MonoBehaviour
 {
     [Header("Input")]
     public KeyCode crouchKey = KeyCode.LeftControl;
+    bool crouching;
 
     MarioController marioController;
     Animator animator;
@@ -16,8 +18,12 @@ public class CrouchController : MonoBehaviour
 
     private void Update()
     {
-        bool crouching = Input.GetKey(crouchKey);
+        crouching = Input.GetKey(crouchKey);
         animator.SetBool("Crouching", crouching);
+    }
+
+    private void LateUpdate()
+    {
         marioController.SetCrouch(crouching);
     }
 }

@@ -66,7 +66,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
         movement = movement * speed * Time.deltaTime;
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
-        movement.y = verticalSpeed * Time.deltaTime;
+        movement.y += verticalSpeed * Time.deltaTime;
 
         CollisionFlags collisionFlags = characterController.Move(movement);
         wasGroundedPrevFrame = isGrounded;
@@ -177,7 +177,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         return isGrounded;
     }
 
-    public float GetGroundTime()
+    public float GetLastGroundTime()
     {
         return groundTime;
     }

@@ -14,7 +14,6 @@ public class JumpController : MonoBehaviour
     private Animator animator;
     private int currentJumpId;
     private int maxJumps = 3;
-    private float lastJumpTime;
 
     private void Awake()
     {
@@ -38,7 +37,7 @@ public class JumpController : MonoBehaviour
     private void Jump()
     {
         animator.SetTrigger("Jump");
-        float diffTime = Time.time - marioController.GetGroundTime();
+        float diffTime = Time.time - marioController.GetLastGroundTime();
         if (diffTime <= nextJumpAvailable)
         {
             currentJumpId = (currentJumpId + 1) % maxJumps;
@@ -47,7 +46,6 @@ public class JumpController : MonoBehaviour
         {
             currentJumpId = 0;
         }
-        lastJumpTime = Time.time;
         animator.SetInteger("JumpN", currentJumpId);
         StartCoroutine(ExecuteJump());
     }
@@ -55,7 +53,9 @@ public class JumpController : MonoBehaviour
     IEnumerator ExecuteJump()
     {
         yield return new WaitForSeconds(waitStartJumpTime);
-        marioController.UpdateVertSpeed(jumpVerticalSpeed);
+        float vertSpeedModifier = 1 + currentJumpId / 10;
+
+        marioController.UpdateVertSpeed(jumpVerticalSpeed * vertSpeedModifier);
         animator.SetBool("Falling", false);
     }
 

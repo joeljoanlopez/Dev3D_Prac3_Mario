@@ -3141,7 +3141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpKeyCode: 32
-  jumpVerticalSpeed: 5
+  jumpVerticalSpeed: 10
   waitStartJumpTime: 0.12
   fallingVerticalSpeedMultiplier: 0.1
   nextJumpAvailable: 0.7
