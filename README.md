@@ -12,7 +12,22 @@ l’entrega individual. Cal utilitzar la versió de Unity3D 2022.3.30f1.
 ## Parts a desenvolupar
 
 - [x] **Escenari (_0.5p_):** Utilitzant els assets pujats a l’eCampus s’haurà de crear un escenari jugable que s’adapti a les necessitats dels següents punts creant un nivell amb gameplay a l’estil de Mario 64.
-- [ ] **Controlador de personatge (_1p_):** El nostre personatge principal haurà de tenir un comportament similar al que tenia el joc original però amb algunes limitacions. S’haurà d’implementar els estats de: Idle, Walk, Run, Fall, Jump, Double Jump, Triple Jump, Long Jump, Wall Jump, Punch1, Punch2, Punch3, Hit, Die. Probablement es necessiten més estats intermitjos per poder permetre tots aquests comportaments. - [x] Idle - [x] Walk - [x] Run - [x] Fall - [x] Jump - [ ] Double Jump - [ ] Triple Jump - [ ] Long Jump - [ ] Wall Jump - [x] Punch 1 - [x] Punch 2 - [x] Punch 3 - [ ] Hit - [ ] Die
+- [ ] **Controlador de personatge (_1p_):** El nostre personatge principal haurà de tenir un comportament similar al que tenia el joc original però amb algunes limitacions. S’haurà d’implementar els estats de: Idle, Walk, Run, Fall, Jump, Double Jump, Triple Jump, Long Jump, Wall Jump, Punch1, Punch2, Punch3, Hit, Die. Probablement es necessiten més estats intermitjos per poder permetre tots aquests comportaments. 
+      - [x] Idle 
+      - [x] Walk 
+      - [x] Run 
+      - [x] Fall 
+      - [ ] Jump
+            - [x] Jump 
+            - [ ] Double Jump 
+            - [ ] Triple Jump 
+      - [ ] Long Jump 
+      - [ ] Wall Jump 
+      - [x] Punch 1 
+      - [x] Punch 2 
+      - [x] Punch 3 
+      - [ ] Hit 
+      - [ ] Die
 - [x] **Càmera (_1p_):** La càmera haurà de comportar-se com en el joc original. Mario es mourà rotant sobre l’eix de la càmera, i aquesta haurà de moure’s fins a una distància màxima sempre sobre l’eix d’aquest. Amb l’extra de que no es pot ficar dins de la geometria de l’escenari. Si una paret bloqueja el moviment que desitgem aconseguir, la càmera haurà d’adaptar-se per col·locar-se en la posició més propera al punt on volem posar-la, però respectant el no entrar dins de la geometria.
 - [x] **Plataformes (_0.5p_):** Haurà d’haver 2 tipus de plataformes mòbils. Una basada en físiques que hauran de comportar-se com un balancí (vídeo). Altre hauria de girar seguint una forma d’oval (vídeo). ![alt text](image-1.png)
 - [x] **Items (_1p_):** Mario haurà de poder recollir monedes i cors. Les monedes es sumaran a mesura que es recullin, i els cors sumaran porcions de vida. (No és el mateix comportament que en el joc original).

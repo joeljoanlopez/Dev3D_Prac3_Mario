@@ -23,6 +23,10 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public KeyCode downKeyCode = KeyCode.D;
     public KeyCode runKeyCode = KeyCode.LeftShift;
 
+
+    private bool wasGroundedPrevFrame;
+    private bool isGrounded;
+    private float groundTime;
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -62,7 +66,9 @@ public class MarioController : MonoBehaviour, RestartGameElement
         movement.y = verticalSpeed * Time.deltaTime;
 
         CollisionFlags collisionFlags = characterController.Move(movement);
-        if ((collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f)
+        wasGroundedPrevFrame = isGrounded;
+        isGrounded = (collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
+        if (isGrounded)
         {
             animator.SetBool("Falling", false);
         }
@@ -70,11 +76,14 @@ public class MarioController : MonoBehaviour, RestartGameElement
         {
             animator.SetBool("Falling", true);
         }
-        if ((collisionFlags & CollisionFlags.Below) != 0 && (verticalSpeed < 0.0f) || (collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
+        if (isGrounded || (collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
         {
             verticalSpeed = 0;
         }
-
+        if (!wasGroundedPrevFrame && isGrounded)
+        {
+            groundTime = Time.time;
+        }
     }
 
     Vector3 HandleInputs(Vector3 forward, Vector3 right)
@@ -153,5 +162,15 @@ public class MarioController : MonoBehaviour, RestartGameElement
             transform.rotation = currentCheckpoint.respawnPoint.rotation;
         }
         characterController.enabled = true;
+    }
+
+    public bool GetGroundedState()
+    {
+        return isGrounded;
+    }
+
+    public float GetGroundTime()
+    {
+        return groundTime;
     }
 }

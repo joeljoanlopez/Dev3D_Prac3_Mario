@@ -19,7 +19,7 @@ public class PunchController : MonoBehaviour
 
     private Animator animator;
     private int currentPunchId;
-    private int maxPunches = 2;
+    private int maxPunches = 3;
     private float lastPunchTime;
 
     private void Start()
@@ -40,6 +40,7 @@ public class PunchController : MonoBehaviour
 
     public bool canPunch()
     {
+        // TODO when should it be able to punch?
         return true;
     }
 
@@ -49,7 +50,7 @@ public class PunchController : MonoBehaviour
         float diffTime = Time.time - lastPunchTime;
         if (diffTime <= punchComboAvailable)
         {
-            currentPunchId = (currentPunchId + 1) % 3;
+            currentPunchId = (currentPunchId + 1) % maxPunches;
         }
         else
         {
