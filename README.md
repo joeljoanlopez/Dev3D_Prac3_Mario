@@ -17,11 +17,11 @@ l’entrega individual. Cal utilitzar la versió de Unity3D 2022.3.30f1.
       - [x] Walk 
       - [x] Run 
       - [x] Fall 
-      - [ ] Jump
+      - [x] Jump
             - [x] Jump 
-            - [ ] Double Jump 
-            - [ ] Triple Jump 
-      - [ ] Long Jump 
+            - [x] Double Jump 
+            - [x] Triple Jump 
+      - [ ] Long Jump -> do a crouch controller and when crouching, movement != 0 and jump does a long jump
       - [ ] Wall Jump 
       - [x] Punch 1 
       - [x] Punch 2 

@@ -2999,6 +2999,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1990157046}
+    - targetCorrespondingSourceObject: {fileID: 100098, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1990157048}
     - targetCorrespondingSourceObject: {fileID: 100066, guid: 2c49a169fa02b2545921fcc829011ecb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 105674382}
@@ -3028,6 +3031,7 @@ MonoBehaviour:
   cam: {fileID: 463707877}
   walkSpeed: 4
   runSpeed: 8
+  crouchSpeed: 1
   rotationSpeed: 15
   leftKeyCode: 97
   rightKeyCode: 100
@@ -3182,6 +3186,19 @@ MonoBehaviour:
   gameManager: {fileID: 1154289928}
   maxLives: 10
   startLives: 1
+--- !u!114 &1990157048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1990157029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd4edc5e39ac5bd4db31bde33aafd97f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crouchKey: 306
 --- !u!1 &2023304032
 GameObject:
   m_ObjectHideFlags: 0

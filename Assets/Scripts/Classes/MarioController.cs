@@ -12,6 +12,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     [Header("Speeds")]
     public float walkSpeed = 2.0f;
     public float runSpeed = 8.0f;
+    public float crouchSpeed = 1.0f;
     public float rotationSpeed = 1.0f;
     private float verticalSpeed = 0.0f;
     public float VerticalSpeed { get { return verticalSpeed; } }
@@ -27,6 +28,8 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public bool wasGroundedPrevFrame;
     public bool isGrounded;
     public float groundTime;
+
+    private bool isCrouching;
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -112,14 +115,19 @@ public class MarioController : MonoBehaviour, RestartGameElement
         return movement;
     }
 
-    float HandleSpeed(bool isRunning, Vector3 movement)
+    float HandleSpeed(bool isMoving, Vector3 movement)
     {
         float speed = 0.0f;
-        if (isRunning)
+        if (isMoving)
         {
             if (Input.GetKey(runKeyCode))
             {
                 speed = runSpeed;
+                animator.SetFloat("Speed", 1.0f);
+            }
+            else if (isCrouching)
+            {
+                speed = crouchSpeed;
                 animator.SetFloat("Speed", 1.0f);
             }
             else
@@ -172,5 +180,10 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public float GetGroundTime()
     {
         return groundTime;
+    }
+
+    public void SetCrouch(bool value)
+    {
+        isCrouching = value;
     }
 }
