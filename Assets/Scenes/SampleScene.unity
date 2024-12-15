@@ -2001,12 +2001,12 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.3
+  m_Color: {r: 1, g: 0.9522289, b: 0.8443396, a: 1}
+  m_Intensity: 2
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize: 13.92
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
@@ -3249,6 +3249,8 @@ MonoBehaviour:
   waitStartJumpTime: 0.12
   fallingVerticalSpeedMultiplier: 0.1
   nextJumpAvailable: 0.7
+  normalJumpSpeed: 2
+  longJumpSpeed: 8
 --- !u!114 &1990157043
 MonoBehaviour:
   m_ObjectHideFlags: 0

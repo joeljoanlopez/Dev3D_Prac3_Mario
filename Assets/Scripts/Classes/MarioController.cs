@@ -18,6 +18,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public float minVerticalSpeed = -10.0f;
     public float verticalSpeed = 0.0f;
 
+    float fallingSpeed;
     public float VerticalSpeed { get { return verticalSpeed; } }
 
     [Header("Input")]
@@ -31,9 +32,13 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public GroundChecker groundChecker;
     private bool wasGroundedPrevFrame;
     private bool isGrounded;
+    public bool IsGrounded { get { return isGrounded; } }
     private float groundTime;
+    public float GroundTime { get { return groundTime; } }
 
     private bool isCrouching;
+    public bool IsCrouching { get { return isCrouching; } set { isCrouching = value; } }
+    private bool isLongJumping;
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -79,6 +84,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
+            isLongJumping = false;
         }
         else
         {
@@ -124,7 +130,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     float HandleSpeed(bool isMoving, Vector3 movement)
     {
         float speed = 0.0f;
-        if (isMoving)
+        if (isMoving && isGrounded)
         {
             if (Input.GetKey(runKeyCode))
             {
@@ -141,13 +147,18 @@ public class MarioController : MonoBehaviour, RestartGameElement
                 speed = walkSpeed;
                 animator.SetFloat("Speed", 0.2f);
             }
-            Quaternion desiredRotation = Quaternion.LookRotation(movement);
-            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
+        }
+        else if (isMoving)
+        {
+            speed = fallingSpeed;
         }
         else
         {
             animator.SetFloat("Speed", 0.0f);
         }
+
+        Quaternion desiredRotation = Quaternion.LookRotation(movement);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
 
         return speed;
     }
@@ -160,6 +171,16 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public void UpdateVertSpeed(float value)
     {
         verticalSpeed = value;
+    }
+
+    public void PerformLongJump()
+    {
+        isLongJumping = true;
+    }
+
+    public void SetFallingSpeed(float value)
+    {
+        fallingSpeed = value;
     }
 
     public void RestartGame()
@@ -176,20 +197,5 @@ public class MarioController : MonoBehaviour, RestartGameElement
             transform.rotation = currentCheckpoint.respawnPoint.rotation;
         }
         characterController.enabled = true;
-    }
-
-    public bool GetGrounded()
-    {
-        return isGrounded;
-    }
-
-    public float GetLastGroundTime()
-    {
-        return groundTime;
-    }
-
-    public void SetCrouch(bool value)
-    {
-        isCrouching = value;
     }
 }

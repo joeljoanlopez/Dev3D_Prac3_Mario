@@ -9,11 +9,14 @@ public class JumpController : MonoBehaviour
     public float waitStartJumpTime = 0.12f;
     public float fallingVerticalSpeedMultiplier = 0.1f;
     public float nextJumpAvailable = 0.7f;
+    public float normalJumpSpeed = 2.0f;
+    public float longJumpSpeed = 8.0f;
 
     private MarioController marioController;
     private Animator animator;
     private int currentJumpId;
     private int maxJumps = 3;
+    private float currentJumpSpeed;
 
     private void Awake()
     {
@@ -31,13 +34,14 @@ public class JumpController : MonoBehaviour
     private bool CanJump()
     {
         //TODO when can mario jump?
-        return marioController.GetGrounded();
+        return marioController.IsGrounded;
     }
 
     private void Jump()
     {
         animator.SetTrigger("Jump");
-        float diffTime = Time.time - marioController.GetLastGroundTime();
+        marioController.SetFallingSpeed(marioController.IsCrouching ? longJumpSpeed : normalJumpSpeed);
+        float diffTime = Time.time - marioController.GroundTime;
         if (diffTime <= nextJumpAvailable)
         {
             currentJumpId = (currentJumpId + 1) % maxJumps;
@@ -58,5 +62,4 @@ public class JumpController : MonoBehaviour
         marioController.UpdateVertSpeed(jumpVerticalSpeed * vertSpeedModifier);
         animator.SetBool("Falling", false);
     }
-
 }

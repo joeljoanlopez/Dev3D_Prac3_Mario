@@ -20,10 +20,6 @@ public class CrouchController : MonoBehaviour
     {
         crouching = Input.GetKey(crouchKey);
         animator.SetBool("Crouching", crouching);
-    }
-
-    private void LateUpdate()
-    {
-        marioController.SetCrouch(crouching);
+        marioController.IsCrouching = crouching;
     }
 }
