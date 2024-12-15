@@ -24,9 +24,9 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public KeyCode runKeyCode = KeyCode.LeftShift;
 
 
-    private bool wasGroundedPrevFrame;
-    private bool isGrounded;
-    private float groundTime;
+    public bool wasGroundedPrevFrame;
+    public bool isGrounded;
+    public float groundTime;
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -67,7 +67,8 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
         CollisionFlags collisionFlags = characterController.Move(movement);
         wasGroundedPrevFrame = isGrounded;
-        isGrounded = (collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
+        // isGrounded = (characterController.collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
+        isGrounded = characterController.isGrounded;
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
@@ -76,7 +77,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         {
             animator.SetBool("Falling", true);
         }
-        if (isGrounded || (collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
+        if (isGrounded || (characterController.collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
         {
             verticalSpeed = 0;
         }
