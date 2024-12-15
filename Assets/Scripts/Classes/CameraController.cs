@@ -54,4 +54,12 @@ public class CameraController : MonoBehaviour
         transform.position = desiredPosition;
         transform.LookAt(followObject.position);
     }
+
+    public void PlaceBehind()
+    {
+        Vector3 behindDirection = -followObject.forward;
+        Vector3 desiredPosition = followObject.position + behindDirection * minCameraDistance;
+        transform.position = desiredPosition;
+        transform.LookAt(followObject.position);
+    }
 }
