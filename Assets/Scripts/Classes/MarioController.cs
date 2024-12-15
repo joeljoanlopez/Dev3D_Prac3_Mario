@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MarioController : MonoBehaviour, RestartGameElement
 {
-    private CharacterController characterController;
     public Camera cam;
+    private CharacterController characterController;
     private Animator animator;
 
     [Header("Speeds")]
@@ -14,7 +14,10 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public float runSpeed = 8.0f;
     public float crouchSpeed = 1.0f;
     public float rotationSpeed = 1.0f;
-    private float verticalSpeed = 0.0f;
+    public float maxVerticalSpeed = 10.0f;
+    public float minVerticalSpeed = -10.0f;
+    public float verticalSpeed = 0.0f;
+
     public float VerticalSpeed { get { return verticalSpeed; } }
 
     [Header("Input")]
@@ -24,10 +27,11 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public KeyCode downKeyCode = KeyCode.D;
     public KeyCode runKeyCode = KeyCode.LeftShift;
 
-
-    public bool wasGroundedPrevFrame;
-    public bool isGrounded;
-    public float groundTime;
+    [Header("Ground Check")]
+    public GroundChecker groundChecker;
+    private bool wasGroundedPrevFrame;
+    private bool isGrounded;
+    private float groundTime;
 
     private bool isCrouching;
     // Game manager vars
@@ -67,10 +71,11 @@ public class MarioController : MonoBehaviour, RestartGameElement
         movement = movement * speed * Time.deltaTime;
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y += verticalSpeed * Time.deltaTime;
-
         CollisionFlags collisionFlags = characterController.Move(movement);
+
         wasGroundedPrevFrame = isGrounded;
-        isGrounded = (characterController.collisionFlags & CollisionFlags.Below) != 0 && verticalSpeed < 0.0f;
+        isGrounded = groundChecker.GetGroundedState() && verticalSpeed <= 0;
+        bool hitSomethingAbove = (characterController.collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f);
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
@@ -79,14 +84,15 @@ public class MarioController : MonoBehaviour, RestartGameElement
         {
             animator.SetBool("Falling", true);
         }
-        if (isGrounded || (characterController.collisionFlags & CollisionFlags.Above) != 0 && (verticalSpeed > 0.0f))
+        if (isGrounded || hitSomethingAbove)
         {
-            verticalSpeed = 0;
+            verticalSpeed = -2.0f;
         }
         if (!wasGroundedPrevFrame && isGrounded)
         {
             groundTime = Time.time;
         }
+        verticalSpeed = Mathf.Clamp(verticalSpeed, minVerticalSpeed, maxVerticalSpeed);
     }
 
     Vector3 HandleInputs(Vector3 forward, Vector3 right)
@@ -172,7 +178,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         characterController.enabled = true;
     }
 
-    public bool GetGroundedState()
+    public bool GetGrounded()
     {
         return isGrounded;
     }

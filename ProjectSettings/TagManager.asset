@@ -8,6 +8,7 @@ TagManager:
   - Goomba
   - Bridge
   - Elevator
+  - Map
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Player
   - Logic
-  - 
+  - Map
   - 
   - 
   - 

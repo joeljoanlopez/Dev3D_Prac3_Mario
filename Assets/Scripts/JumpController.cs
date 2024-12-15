@@ -31,7 +31,7 @@ public class JumpController : MonoBehaviour
     private bool CanJump()
     {
         //TODO when can mario jump?
-        return marioController.GetGroundedState();
+        return marioController.GetGrounded();
     }
 
     private void Jump()
