@@ -18,6 +18,12 @@ public class ScoreManager : MonoBehaviour, IScoreManager
         DependencyInjector.AddDependency<IScoreManager>(this);
         score = 0;
     }
+
+    private void Start()
+    {
+        scoreChangedDelegate?.Invoke(this);
+    }
+
     public void AddScore(int value)
     {
         score += value;

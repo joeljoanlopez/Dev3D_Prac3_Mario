@@ -30,6 +30,7 @@ public class HealthController : MonoBehaviour, IHealthController, RestartGameEle
     {
         health = maxHealth;
         damageTimer = invincibilityTime;
+        healthChangedDelegate?.Invoke(this);
     }
 
     private void Update()

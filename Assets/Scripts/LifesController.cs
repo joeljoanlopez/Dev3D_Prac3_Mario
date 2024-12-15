@@ -28,6 +28,7 @@ public class LifesController : MonoBehaviour, ILivesManager
     private void Start()
     {
         lives = startLives;
+        livesChangedDelegate?.Invoke(this);
     }
 
     private void Update()
