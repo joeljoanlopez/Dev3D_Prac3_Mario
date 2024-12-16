@@ -147,20 +147,25 @@ public class MarioController : MonoBehaviour, RestartGameElement
                 speed = walkSpeed;
                 animator.SetFloat("Speed", 0.2f);
             }
+            RotateAccordingly(movement);
         }
         else if (isMoving)
         {
             speed = fallingSpeed;
+            RotateAccordingly(movement);
         }
         else
         {
             animator.SetFloat("Speed", 0.0f);
         }
 
+        return speed;
+    }
+
+    void RotateAccordingly(Vector3 movement)
+    {
         Quaternion desiredRotation = Quaternion.LookRotation(movement);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
-
-        return speed;
     }
 
     public void SetCheckpoint(CheckpointController newCheckpoint)
