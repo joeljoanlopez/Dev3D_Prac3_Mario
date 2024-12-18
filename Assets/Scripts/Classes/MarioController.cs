@@ -38,7 +38,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
 
     private bool isCrouching;
     public bool IsCrouching { get { return isCrouching; } set { isCrouching = value; } }
-    private bool isLongJumping;
+
     // Game manager vars
     private Vector3 startingPosition;
     private Quaternion startingRotation;
@@ -73,7 +73,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
         bool hasMovement = movement != Vector3.zero; // I May need to set it in each input
         float speed = HandleSpeed(hasMovement, movement);
 
-        movement = movement * speed * Time.deltaTime;
+        movement = movement * (speed * Time.deltaTime);
         verticalSpeed += Physics.gravity.y * Time.deltaTime;
         movement.y += verticalSpeed * Time.deltaTime;
         CollisionFlags collisionFlags = characterController.Move(movement);
@@ -84,7 +84,6 @@ public class MarioController : MonoBehaviour, RestartGameElement
         if (isGrounded)
         {
             animator.SetBool("Falling", false);
-            isLongJumping = false;
         }
         else
         {
@@ -176,11 +175,6 @@ public class MarioController : MonoBehaviour, RestartGameElement
     public void UpdateVertSpeed(float value)
     {
         verticalSpeed = value;
-    }
-
-    public void PerformLongJump()
-    {
-        isLongJumping = true;
     }
 
     public void SetFallingSpeed(float value)
