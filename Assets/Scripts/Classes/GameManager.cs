@@ -1,15 +1,25 @@
+using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public interface RestartGameElement
+public interface IRestartGameElement
 {
     void RestartGame();
 }
 
+public interface IDieElement
+{
+    void Die();
+}
+
 public class GameManager : MonoBehaviour
 {
+    public GameObject gameOverScreen;
     static GameManager gameManager;
-    List<RestartGameElement> restartGameElements = new List<RestartGameElement>();
+    private List<IRestartGameElement> restartGameElements = new List<IRestartGameElement>();
+    private List<IDieElement> dieElements = new List<IDieElement>();
 
     private void Awake()
     {
@@ -24,29 +34,54 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        gameOverScreen.SetActive(false);
+    }
+
     static public GameManager GetGameManager()
     {
         return gameManager;
     }
 
-    public void AddRestartGameElement(RestartGameElement restartGameElement)
+    public void AddRestartGameElement(IRestartGameElement restartGameElement)
     {
         restartGameElements.Add(restartGameElement);
     }
 
     public void RestartGame()
     {
-        foreach (RestartGameElement restartGameElement in restartGameElements)
+        foreach (IRestartGameElement restartGameElement in restartGameElements)
         {
             restartGameElement.RestartGame();
         }
+        gameOverScreen.SetActive(false);
+    }
+
+    public void AddDieElement(IDieElement dieElement)
+    {
+        dieElements.Add(dieElement);
+    }
+
+    public void Die()
+    {
+        foreach (IDieElement dieElement in dieElements)
+        {
+            dieElement.Die();
+        }
+        gameOverScreen.SetActive(true);
+    }
+
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            RestartGame();
+            Die();
         }
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GoombaController : MonoBehaviour, RestartGameElement
+public class GoombaController : MonoBehaviour, IRestartGameElement
 {
     CharacterController characterController;
     Vector3 startingPosition;

@@ -3,7 +3,7 @@ using System.Net.WebSockets;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class MarioController : MonoBehaviour, RestartGameElement
+public class MarioController : MonoBehaviour, IRestartGameElement, IDieElement
 {
     public Camera cam;
     private CharacterController characterController;
@@ -54,6 +54,7 @@ public class MarioController : MonoBehaviour, RestartGameElement
     {
         animator.fireEvents = false;
         GameManager.GetGameManager().AddRestartGameElement(this);
+        GameManager.GetGameManager().AddDieElement(this);
         startingPosition = transform.position;
         startingRotation = transform.rotation;
     }
@@ -196,5 +197,10 @@ public class MarioController : MonoBehaviour, RestartGameElement
             transform.rotation = currentCheckpoint.respawnPoint.rotation;
         }
         characterController.enabled = true;
+    }
+
+    public void Die()
+    {
+        characterController.enabled = false;
     }
 }

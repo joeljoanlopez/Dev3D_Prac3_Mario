@@ -1,5 +1,5 @@
 using UnityEngine;
-public class Item : MonoBehaviour, RestartGameElement
+public class Item : MonoBehaviour, IRestartGameElement
 {
     private void Start()
     {

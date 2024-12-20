@@ -1,24 +1,41 @@
 using UnityEngine;
 
-public class LockCursor : MonoBehaviour
+public class LockCursor : MonoBehaviour, IDieElement, IRestartGameElement
 {
-    void Start()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-    }
+	private bool isCursorLocked;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
-    }
+	void Start()
+	{
+		GameManager.GetGameManager().AddRestartGameElement(this);
+		GameManager.GetGameManager().AddDieElement(this);
+		
+		isCursorLocked = true;
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = !isCursorLocked;
+	}
+
+	void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Escape) || !isCursorLocked)
+		{
+			Cursor.lockState = CursorLockMode.None;
+		}
+
+		if (Input.GetMouseButtonDown(0) && isCursorLocked)
+		{
+			Cursor.lockState = CursorLockMode.Locked;
+		}
+
+		Cursor.visible = isCursorLocked;
+	}
+
+	public void Die()
+	{
+		isCursorLocked = false;
+	}
+
+	public void RestartGame()
+	{
+		isCursorLocked = true;
+	}
 }

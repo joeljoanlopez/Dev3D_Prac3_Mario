@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Dev3D_Prac3_Mario.sln"
+    "dotnet.defaultSolution": "Dev3D_Prac3_Mario.sln",
+    "dotnet.preferCSharpExtension": true
 }

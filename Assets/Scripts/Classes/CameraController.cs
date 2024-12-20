@@ -3,7 +3,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Accessibility;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IDieElement, IRestartGameElement
 {
     public Transform followObject;
     public LayerMask layerMask;
@@ -21,8 +21,19 @@ public class CameraController : MonoBehaviour
     private float pitch;
     private float yaw;
 
+    private bool isActive;
+
+    private void Start()
+    {
+        isActive = true;
+        GameManager.GetGameManager().AddRestartGameElement(this);
+        GameManager.GetGameManager().AddDieElement(this);
+    }
+
     private void LateUpdate()
     {
+        if (!isActive) return;
+        
         float horizontalAxis = Input.GetAxis("Mouse X");
         float verticalAxis = Input.GetAxis("Mouse Y");
 
@@ -61,5 +72,15 @@ public class CameraController : MonoBehaviour
         Vector3 desiredPosition = followObject.position + behindDirection * minCameraDistance;
         transform.position = desiredPosition;
         transform.LookAt(followObject.position);
+    }
+
+    public void Die()
+    {
+        isActive = false;
+    }
+
+    public void RestartGame()
+    {
+        isActive = true;
     }
 }
