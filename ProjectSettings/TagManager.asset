@@ -9,6 +9,7 @@ TagManager:
   - Bridge
   - Elevator
   - Map
+  - GameOverScreen
   layers:
   - Default
   - TransparentFX

@@ -3013,7 +3013,7 @@ GameObject:
   - component: {fileID: 982035793}
   m_Layer: 5
   m_Name: GameOverScreen
-  m_TagString: Untagged
+  m_TagString: GameOverScreen
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3373,7 +3373,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe7133f0c23b84d49b14d1cb5c8be06f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverScreen: {fileID: 982035792}
 --- !u!4 &1154289929
 Transform:
   m_ObjectHideFlags: 0

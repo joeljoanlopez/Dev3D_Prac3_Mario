@@ -16,8 +16,8 @@ public interface IDieElement
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject gameOverScreen;
     static GameManager gameManager;
+    private GameObject gameOverScreen;
     private bool isGameOver;
     private List<IRestartGameElement> restartGameElements = new List<IRestartGameElement>();
     private List<IDieElement> dieElements = new List<IDieElement>();
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        gameOverScreen = GameObject.FindGameObjectWithTag("GameOverScreen");
         isGameOver = false;
     }
 
@@ -81,10 +82,10 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        gameOverScreen.SetActive(isGameOver);
         if (Input.GetKeyDown(KeyCode.R))
         {
             Die();
         }
-        gameOverScreen.SetActive(isGameOver);
     }
 }
