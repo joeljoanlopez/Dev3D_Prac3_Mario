@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject gameOverScreen;
     static GameManager gameManager;
+    private bool isGameOver;
     private List<IRestartGameElement> restartGameElements = new List<IRestartGameElement>();
     private List<IDieElement> dieElements = new List<IDieElement>();
 
@@ -36,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        gameOverScreen.SetActive(false);
+        isGameOver = false;
     }
 
     static public GameManager GetGameManager()
@@ -55,7 +56,7 @@ public class GameManager : MonoBehaviour
         {
             restartGameElement.RestartGame();
         }
-        gameOverScreen.SetActive(false);
+        isGameOver = false;
     }
 
     public void AddDieElement(IDieElement dieElement)
@@ -69,12 +70,12 @@ public class GameManager : MonoBehaviour
         {
             dieElement.Die();
         }
-        gameOverScreen.SetActive(true);
+        isGameOver = true;
     }
 
     public void ReloadGame()
     {
-        gameOverScreen.SetActive(false);
+        isGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
@@ -84,5 +85,6 @@ public class GameManager : MonoBehaviour
         {
             Die();
         }
+        gameOverScreen.SetActive(isGameOver);
     }
 }

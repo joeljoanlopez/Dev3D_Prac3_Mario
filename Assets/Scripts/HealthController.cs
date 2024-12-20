@@ -90,5 +90,6 @@ public class HealthController : MonoBehaviour, IHealthController, IRestartGameEl
 	public void RestartGame()
 	{
 		health = maxHealth;
+		healthChangedDelegate?.Invoke(this);
 	}
 }
