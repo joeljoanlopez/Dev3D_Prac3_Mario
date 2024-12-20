@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
 
     public void ReloadGame()
     {
+        gameOverScreen.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
