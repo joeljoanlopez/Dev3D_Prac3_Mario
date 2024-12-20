@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     public void Update()
     {
+        if (!gameOverScreen)
+            gameOverScreen = GameObject.FindGameObjectWithTag("GameOverScreen");
         gameOverScreen.SetActive(isGameOver);
         if (Input.GetKeyDown(KeyCode.R))
         {

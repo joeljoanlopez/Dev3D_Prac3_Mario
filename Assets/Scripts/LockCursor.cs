@@ -26,7 +26,7 @@ public class LockCursor : MonoBehaviour, IDieElement, IRestartGameElement
 			Cursor.lockState = CursorLockMode.Locked;
 		}
 
-		Cursor.visible = isCursorLocked;
+		Cursor.visible = !isCursorLocked;
 	}
 
 	public void Die()
