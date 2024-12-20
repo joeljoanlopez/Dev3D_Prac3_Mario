@@ -73,7 +73,6 @@ public class HealthController : MonoBehaviour, IHealthController, IRestartGameEl
 
 	public void Die()
 	{
-		// TODO implement game over screen
 		if (!lifesController)
 		{
 			gameManager.Die();
